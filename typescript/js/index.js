@@ -145,44 +145,194 @@ function getInfo(str) {
         return '我的年龄是' + str;
     }
 }
-function printLab(data) {
-    console.log('printLab', data);
-}
-let data = {
-    name: 'whldk',
-    age: 25,
-    sex: true,
-    addr: '武汉'
+let md5 = function (key, value) {
+    return key + value;
 };
-printLab(data);
-function ajax(config) {
-    let xhr = new XMLHttpRequest();
-    xhr.open(config.type, config.url, true);
-    xhr.send(config.data);
-    xhr.onreadystatechange = (() => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            if (config.dataType === 'json') {
-                JSON.parse(xhr.responseText);
-            }
-            else {
-                console.log(xhr.responseText);
-            }
-        }
-        if (xhr.readyState === 4 && xhr.status !== 200) {
-            //console.log('xhr', xhr)
-            if (config.dataType === 'json') {
-                let data = JSON.parse(xhr.responseText);
-                console.log('d', data);
-            }
-            else {
-                console.log('11', xhr.responseText);
-            }
-        }
-    });
+console.log(md5('name', 'zs'));
+//可索引接口:数组、对象的约束（不常用）
+// interface UserArr {
+//     [index:number]:string
+// }
+// var arr_col:UserArr = ['1','2', '3']
+// //类 类型接口 、对类的约束 和抽象类有点相似
+// interface Animal {
+//     name:string;
+//     eat(str:string):void;
+// }
+// class Dog implements Animal {
+//     name: string;
+//     constructor(name: string){
+//      this.name = name
+//     }
+//     eat(str: string): void {
+//         console.log('str',this.name + str)
+//     }
+// }
+// let D = new Dog('小黑')
+// D.eat('zs')
+//接口扩展 ： 接口可以继承接口
+// interface Animal {
+//     eat():void;
+// }
+// interface Person extends Animal {
+//     work():void;
+// }
+// class Web implements Person{
+//     public name:string;
+//     constructor(name:string){
+//         this.name = name
+//     }
+//     eat(): void {
+//         console.log('eat')
+//     }
+//     work(): void {
+//         console.log('work')
+//     }
+// }
+// let W = new Web('ldk')
+// W.eat()
+// W.work()
+/**
+ * 泛型 ： 软件工程中、我们不仅要创建一致的定义良好的API 、同时也要考虑可重用性、
+ * 组件不仅能支持当前的数据类型、同时也能支持未来的数据类型、这在创建大型系统时为你提供了十分灵活的功能
+ * 在像C# 和 JAVA 这样的语言中， 可以使用泛型来创建可重用的组件、一个组件可以支持多种类型的数据，
+ * 通俗理解： 泛型就是解决 类、 接口、 方法的复用性、 以及对不特定数据类型的支持
+ * 泛型：可以支持不特定的数据类型
+ */
+//只能返回string 类型的数据
+function getData(value) {
+    return value;
 }
-ajax({
-    type: 'get',
-    url: 'https://www.xinke081.cn/mengoo-esp/site/school',
-    data: '',
-    dataType: 'json'
-});
+//同时返回 string 和 number
+function getData1(value) {
+    return value;
+}
+//任意类型
+function getData2(value) {
+    return value;
+}
+function getData3(value) {
+    return value;
+}
+//同时返回 string 类型 和 number 类型
+// interface S{
+// }
+// let key:S = '123'
+// let key:string  = '123'
+class MinClass {
+    constructor() {
+        this.list = [];
+    }
+    add(num) {
+        this.list.push(num);
+    }
+    min() {
+        var min = this.list[0];
+        for (var i = 0; i < this.list.length; i++) {
+            if (min > this.list[i]) {
+                min = this.list[i];
+            }
+        }
+        return min;
+    }
+}
+// var m = new MinClass<number>()  /**实例化 并且制定了类的T代表的类型是number */
+// m.add(1)
+// m.add(13)
+// m.add(23)
+// m.add(33)
+// m.add(43)
+// alert(m.min())
+// var m1 = new MinClass<string|number>()  /**实例化 并且制定了类的T代表的类型是string */
+// m1.add('a')
+// m1.add('b')
+// m1.add('c')
+// m1.add('d')
+// m1.add(2)
+// alert(m1.min())
+//1、 泛型接口
+// interface config{
+//     <T>(value:T):T;
+// }
+// var getData4:config=function <T>(value:T):T{
+//     return value;
+// }
+//2  泛型接口
+// interface config<T> {
+//     (value:T):T;
+// }
+// function getData5<T>(value:T):T{
+//     return value
+// }
+// //var gd:config<string>=getData5
+// var gd = getData5('123')
+class User {
+}
+class Db {
+    add(user) {
+        console.log('user', user);
+        return true;
+    }
+}
+// var u = new User({username:'zs', password:'123456;});    //初始化赋值
+// var db = new Db();
+// db.add(u)
+//操作类的 泛型
+class Mydb {
+    add(info) {
+        console.log('info', info);
+        return true;
+    }
+}
+var u = new User();
+//外面赋值
+u.username = 'zs';
+u.password = '123456';
+var d = new Mydb();
+d.add(u);
+//提前与类映射
+// 8 模块
+// 8.1  模块的概念
+// 8.2  模块导出的几种方法
+//  1、export 导出声明
+//  2、export 导出语句
+//  3、export default
+//  4、import导入模块
+// 8.3 模块化封装db库
+/**
+ *  9 命名空间
+ *  在代码量较大的情况下、为了避免各种变量命名相冲突、 可以将相似功能的函数、类、接口等放置到命名空间内
+ *
+ *  命名空间和模块的区别
+ *
+ *      命名空间 ： 内部模块、主要用户组织代码、避免命名冲突
+ *      模块：      ts的外部模块的简称，侧重代码的重用，一个模块里支持多个命名空间
+ */
+var A1;
+(function (A1) {
+    class Cat {
+        constructor() {
+            this.str = '123';
+        }
+        arr() {
+            console.log('A');
+        }
+    }
+    A1.Cat = Cat;
+})(A1 || (A1 = {}));
+var B1;
+(function (B1) {
+    class Cat {
+        constructor() {
+            this.str = '123';
+        }
+        arr() {
+            console.log('A');
+        }
+    }
+    B1.Cat = Cat;
+})(B1 || (B1 = {}));
+//命名空间对外
+new A1.Cat().arr();
+let s = new A1.Cat().str;
+console.log('s', s);
